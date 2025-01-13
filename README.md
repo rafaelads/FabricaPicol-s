@@ -1,6 +1,6 @@
-# FabricaPicolés
+# FabricaPicolés-DB
 
-Um sistema de gerenciamento de banco de dados para uma fábrica de picolés, utilizando SQL Server. Este projeto inclui a criação de tabelas, inserção de dados, consultas, views e cálculos para gerenciar as retiradas e devoluções de produtos pelos vendedores.
+Este é um projeto pessoal desenvolvido para gerenciar o banco de dados de uma fábrica de picolés pertencente à nossa família. Utilizamos SQL Server para organizar e controlar as retiradas e devoluções de produtos pelos vendedores, bem como para calcular as vendas diárias.
 
 ## Tabelas
 
@@ -30,7 +30,7 @@ O projeto inclui views para facilitar os cálculos das vendas diárias:
 
 ## Contribuição
 
-Contribuições são bem-vindas! Se você tiver sugestões de melhorias ou novas funcionalidades, sinta-se à vontade para criar um pull request.
+Como este é um projeto familiar, sinta-se à vontade para contribuir com sugestões de melhorias ou novas funcionalidades. Crie um pull request se quiser adicionar algo ao projeto.
 
 ## Licença
 
@@ -38,4 +38,4 @@ Este projeto está licenciado sob os termos da licença MIT. Veja o arquivo [LIC
 
 ---
 
-Se precisar de mais alguma coisa ou tiver outras dúvidas, estou aqui para ajudar!
+Se precisar de mais alguma coisa ou tiver outras dúvidas, estamos à disposição!
