@@ -1,0 +1,16 @@
+CREATE VIEW vw_CalculoVendas AS
+SELECT
+    r.Data,
+    v.Nome AS Vendedor,
+    p.Nome AS Produto,
+    ir.Quantidade_Retirada - ir.Quantidade_Retornada AS Quantidade_Vendida,
+    (ir.Quantidade_Retirada - ir.Quantidade_Retornada) * ir.Preço AS Total_Vendido
+FROM
+    Itens_de_Retirada ir
+JOIN
+    Retiradas r ON ir.Retirada_ID = r.ID_Retirada
+JOIN
+    Produtos p ON ir.Produto_ID = p.ID_Produto
+JOIN
+    Vendedores v ON r.Vendedor_ID = v.ID_Vendedor;
+GO
