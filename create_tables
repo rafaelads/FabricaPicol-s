@@ -1,0 +1,37 @@
+CREATE TABLE Vendedores (
+    ID_Vendedor INT PRIMARY KEY IDENTITY(1,1),
+    Nome NVARCHAR(100) NOT NULL,
+    Sobrenome NVARCHAR(100) NOT NULL,
+    Telefone NVARCHAR(20),
+    Email NVARCHAR(100)
+);
+GO
+
+CREATE TABLE Produtos (
+    ID_Produto INT PRIMARY KEY IDENTITY(1,1),
+    Nome NVARCHAR(100) NOT NULL,
+    Tipo NVARCHAR(50) NOT NULL,
+    Preço DECIMAL(10, 2) NOT NULL,
+    Quantidade_em_Estoque INT NOT NULL
+);
+GO
+
+CREATE TABLE Retiradas (
+    ID_Retirada INT PRIMARY KEY IDENTITY(1,1),
+    Data DATETIME NOT NULL,
+    Vendedor_ID INT,
+    FOREIGN KEY (Vendedor_ID) REFERENCES Vendedores(ID_Vendedor)
+);
+GO
+
+CREATE TABLE Itens_de_Retirada (
+    ID_Item_Retirada INT PRIMARY KEY IDENTITY(1,1),
+    Retirada_ID INT,
+    Produto_ID INT,
+    Quantidade_Retirada INT NOT NULL,
+    Quantidade_Retornada INT NOT NULL,
+    Preço DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (Retirada_ID) REFERENCES Retiradas(ID_Retirada),
+    FOREIGN KEY (Produto_ID) REFERENCES Produtos(ID_Produto)
+);
+GO
