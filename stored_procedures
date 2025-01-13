@@ -1,0 +1,107 @@
+CREATE PROCEDURE InserirVendedor
+    @Nome NVARCHAR(100),
+    @Sobrenome NVARCHAR(100),
+    @Telefone NVARCHAR(20),
+    @Email NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Vendedores (Nome, Sobrenome, Telefone, Email)
+    VALUES (@Nome, @Sobrenome, @Telefone, @Email);
+END;
+GO
+
+CREATE PROCEDURE InserirProduto
+    @Nome NVARCHAR(100),
+    @Tipo NVARCHAR(50),
+    @Preço DECIMAL(10, 2),
+    @Quantidade_em_Estoque INT
+AS
+BEGIN
+    INSERT INTO Produtos (Nome, Tipo, Preço, Quantidade_em_Estoque)
+    VALUES (@Nome, @Tipo, @Preço, @Quantidade_em_Estoque);
+END;
+GO
+
+CREATE PROCEDURE InserirRetirada
+    @Data DATETIME,
+    @Vendedor_ID INT
+AS
+BEGIN
+    INSERT INTO Retiradas (Data, Vendedor_ID)
+    VALUES (@Data, @Vendedor_ID);
+END;
+GO
+
+CREATE PROCEDURE InserirItemRetirada
+    @Retirada_ID INT,
+    @Produto_ID INT,
+    @Quantidade_Retirada INT,
+    @Quantidade_Retornada INT,
+    @Preço DECIMAL(10, 2)
+AS
+BEGIN
+    INSERT INTO Itens_de_Retirada (Retirada_ID, Produto_ID, Quantidade_Retirada, Quantidade_Retornada, Preço)
+    VALUES (@Retirada_ID, @Produto_ID, @Quantidade_Retirada, @Quantidade_Retornada, @Preço);
+END;
+GO
+
+CREATE PROCEDURE AtualizarEstoqueProduto
+    @Produto_ID INT,
+    @Quantidade INT
+AS
+BEGIN
+    UPDATE Produtos
+    SET Quantidade_em_Estoque = Quantidade_em_Estoque + @Quantidade
+    WHERE ID_Produto = @Produto_ID;
+END;
+GO
+
+CREATE PROCEDURE ConsultarVendasDiarias
+AS
+BEGIN
+    SELECT
+        r.Data,
+        v.Nome AS Vendedor,
+        p.Nome AS Produto,
+        ir.Quantidade_Retirada - ir.Quantidade_Retornada AS Quantidade_Vendida,
+        (ir.Quantidade_Retirada - ir.Quantidade_Retornada) * ir.Preço AS Total_Vendido
+    FROM
+        Itens_de_Retirada ir
+    JOIN
+        Retiradas r ON ir.Retirada_ID = r.ID_Retirada
+    JOIN
+        Produtos p ON ir.Produto_ID = p.ID_Produto
+    JOIN
+        Vendedores v ON r.Vendedor_ID = v.ID_Vendedor;
+END;
+GO
+
+CREATE PROCEDURE ConsultarEstoqueAtual
+AS
+BEGIN
+    SELECT Nome, Tipo, Quantidade_em_Estoque
+    FROM Produtos;
+END;
+GO
+
+CREATE PROCEDURE ConsultarRetiradasPorVendedor
+    @Vendedor_ID INT
+AS
+BEGIN
+    SELECT
+        r.Data,
+        p.Nome AS Produto,
+        ir.Quantidade_Retirada,
+        ir.Quantidade_Retornada,
+        ir.Quantidade_Retirada - ir.Quantidade_Retornada AS Quantidade_Vendida,
+        (ir.Quantidade_Retirada - ir.Quantidade_Retornada) * ir.Preço AS Total_Vendido
+    FROM
+        Itens_de_Retirada ir
+    JOIN
+        Retiradas r ON ir.Retirada_ID = r.ID_Retirada
+    JOIN
+        Produtos p ON ir.Produto_ID = p.ID_Produto
+    WHERE
+        r.Vendedor_ID = @Vendedor_ID;
+END;
+GO
